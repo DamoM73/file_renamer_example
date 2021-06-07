@@ -85,7 +85,8 @@ folder_lb.grid(row=2,column=2)
 
 # criteria sheet picker
 tk.Label(root, text="Criteria Sheet").grid(row=3,column=0)
-tk.Button(root, text = "Choose Criteria Sheet", command=criteria_btn).grid(row=3,column=1)
+tk.Button(root, text = "Choose Criteria Sheet", command=criteria_btn)\
+    .grid(row=3,column=1)
 criteria_lb = tk.Label(root, text="Not Selected")
 criteria_lb.grid(row=3,column=2)
 
