@@ -57,8 +57,10 @@ def go_btn():
         unzip(root.zip_file,root.destination)
         rename(root.destination)
         add_file(root.criteria, root.destination)
+        go_lb.config(text = "Files Created")
     else:
         go_lb.config(text = "Components missing")
+
 
 # ----- MAIN PROGRAM -----
 # create window
