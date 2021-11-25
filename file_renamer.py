@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 from PIL import ImageTk, Image
+from docx2pdf import convert
 
 
 def unzip(file, dest):
@@ -105,6 +106,7 @@ def go_btn():
         unzip(root.zip_file,root.destination)
         rename(root.destination)
         add_file(root.rubric, root.destination)
+        #convert(root.destination)
         go_lb.config(text = "Files Created")
         open_folder_btn.config(state=tk.NORMAL) # enables open folder button
     else:
