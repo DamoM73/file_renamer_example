@@ -12,11 +12,11 @@ from docx2pdf import convert
 def unzip(file, dest):
     # ensures provided file is a zip file and then unzips it
     # accepts zip file path as file(str) and destination folder path as dest(str)
-    
+
     try:
         with ZipFile(file, 'r') as zipped:
             zipped.extractall(dest)
-    except:
+    except Exception:
         print("Error with zip file")
 
 
@@ -46,15 +46,15 @@ def add_file(file, dest):
 def zipped_btn():
     # gets zip file path from user
     # assigns zip file path to zip_file(str)
-    
+
     root.zip_file = filedialog.askopenfilename(initialdir=".")
 
     # ensure that files selected is a zip file
     _, ext = os.path.splitext(root.zip_file)
-       
-    if not root.zip_file == "":
+
+    if root.zip_file != "":
         if ext == ".zip":
-            zipped_lb.config(text = os.path.basename(root.zip_file)[:15]+"...")
+            zipped_lb.config(text=f"{os.path.basename(root.zip_file)[:15]}...")
             folder_btn.config(state=tk.NORMAL) # enables folder button
         else:
             zipped_lb.config(text = 'File selected is not zip file')
@@ -64,21 +64,21 @@ def zipped_btn():
 def folder_btn():
     # get destination folder path from user
     # assigns folder path to root.destination(str)
-    
+
     dir_path = filedialog.askdirectory(initialdir=".")
-    
+
     _,new_folder = os.path.split(root.zip_file)
     root.destination = f"{dir_path}/{new_folder[:-4]}"
-    
+
     # check that folder does not already exsist
     try:
         os.mkdir(root.destination)
-    except:
+    except Exception:
         messagebox.showerror("Error","Folder already exists")
         root.destination = ""
 
     # ensure that a folder was selected rather than clicking cancel
-    if not root.destination == "":
+    if root.destination:
         _, directory = os.path.split(root.destination)
         parent_dir = dir_path[dir_path.rfind("/")+1:]
         folder_lb.config(text = f"..\{parent_dir}\{directory[:10]}...")
@@ -88,11 +88,11 @@ def folder_btn():
 def rubric_btn():
     # gets rubric file path from user
     # assigns rubric file path to root.rubric(str)
-    
+
     root.rubric = filedialog.askopenfilename(initialdir=".")  
 
     # ensures that rubric file was selected rather than clicking cancel
-    if not root.rubric == "":
+    if root.rubric != "":
         criteria_lb.config(text = os.path.basename(root.rubric))
         go_btn.config(state=tk.NORMAL) # enables go button
 
@@ -103,10 +103,10 @@ def go_btn():
     # ensure all necessary information has been entered
     if root.zip_file != "" and root.destination != "" and root.rubric != "":
         # run process
-        unzip(root.zip_file,root.destination)
+        unzip(root.zip_file, root.destination)
         rename(root.destination)
         add_file(root.rubric, root.destination)
-        #convert(root.destination)
+        convert(root.destination)
         go_lb.config(text = "Files Created")
         open_folder_btn.config(state=tk.NORMAL) # enables open folder button
     else:
